@@ -24,12 +24,15 @@ function createScene(): Scene {
     camera.attachControl(canvas, true);
     var light1: HemisphericLight = new HemisphericLight("light1", new Vector3(0, 1, 0), scene);
     var ground = MeshBuilder.CreateGround("ground1", { width: 10, height: 10 }, scene);
-    const dna = new DNA(0, 0.1, 0);
-    let bacteria = new Bacteria(dna, scene);
-    scene.onBeforeRenderObservable.add(() => { 
-        bacteria.body.position.x += 0.001;
-        //bacteria.search(3);
-    })
+    ground.position.y = -0.2;
+    const dna = new DNA(0, 0.2, 0);
+    let bacteria = new Bacteria(dna, scene, 'b1');
+    const bacteria2 = new Bacteria(dna, scene, 'b2');
+    bacteria2.mesh.position.x = 4;
+    scene.registerBeforeRender(() => { 
+        bacteria.move();
+        //bacteria.castRay(scene);
+    });
 
 
     return scene;
