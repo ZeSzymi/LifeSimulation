@@ -15,6 +15,7 @@ export class MoveService {
     }
 
     move(mesh: Mesh, hits: PickingInfo[]) {
+
         if (mesh.position.x > this.area || mesh.position.x < -this.area) {
             this.collision.is = true;
             this.collision.attempts++;

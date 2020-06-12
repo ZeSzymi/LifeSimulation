@@ -17,9 +17,8 @@ export class InitService {
         camera.setTarget(Vector3.Zero());
         camera.attachControl(canvas, true);
         const light1: HemisphericLight = new HemisphericLight("light1", new Vector3(0, 1, 0), scene);
-        //const ground = MeshBuilder.CreateGround("ground1", { width: 10, height: 10 }, scene);
-        //ground.position.y = -0.2;
-        const bacterias = this.generateService.genereteBacterias(50, scene);
+        const bacterias = this.generateService.genereteBacterias(20, scene);
+        const foods = this.generateService.generateFood(100, scene);
         this.initialized = true;
         return  { camera, bacterias }
     }
