@@ -37,9 +37,11 @@ function createScene(): Scene {
     }
 
     scene.registerBeforeRender(() => {
-        bacterias.forEach(bacteria => {
-            bacteria.move(scene);
-        })
+        if (!stop) {
+            bacterias.forEach(bacteria => {
+                bacteria.move(scene);
+            })
+        }
     });
     return scene;
 }
@@ -47,9 +49,9 @@ function createScene(): Scene {
 var sceneFinal: Scene = createScene();
 
 engine.runRenderLoop(() => {
-    if (!stop) {
-        sceneFinal.render();
-    }
+
+    sceneFinal.render();
+
 });
 
 class AnimationKey {

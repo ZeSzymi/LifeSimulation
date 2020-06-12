@@ -26,8 +26,9 @@ export class Bacteria {
         this.mesh = MeshBuilder.CreateBox(id, { width: DNA.size, height: 0.2, depth: DNA.size }, scene);
         this.DNA = DNA;
         this.animationPropertiesOverride(true, 0.09, 1);
-        this.moveService = new MoveService(10, 100);
+        this.moveService = new MoveService();
         this.rayService = new RayService();
+        this.rayService.castRay(scene, this.mesh);
     }
 
     private animationPropertiesOverride(enableBlending: boolean, blendingSpeed: number, loopMode: number) {
@@ -37,19 +38,9 @@ export class Bacteria {
         this.mesh.animationPropertiesOverride.loopMode = loopMode;
     }
 
-    public search(radius: number) {
-        for (let r = 0; r <= radius; r++) {
-            for (let i = 0; i <= 360; i++) {
-                let x = r * Math.cos(i) + this.mesh.position.x;
-                let y = r * Math.sin(i) + this.mesh.position.x;
-            }
-        }
-    }
-
     public move(scene: Scene) {
-        const hits = this.rayService.castRay(scene, this.mesh);
-        this.moveService.move(this.mesh);
-
+        const hits = this.rayService.getHits(scene);
+        this.moveService.move(this.mesh, hits);
     }
 
     public go() {
