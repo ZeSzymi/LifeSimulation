@@ -22,12 +22,20 @@
             display: block;
             font-size: 0;
         }
+
+        #stop {
+            position: absolute;
+            bottom: 10%;
+            width: 50px;
+            left: calc(50% - 50px);
+            z-index: 1;
+        }
     </style>
 </head>
 
 <body>
     <canvas id="renderCanvas" touch-action="none"></canvas>
-
+    <button id="stop">Stop</button>
     <script src="main.js"></script>
 </body>
 

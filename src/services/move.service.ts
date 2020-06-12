@@ -1,5 +1,6 @@
 import { Mesh } from '@babylonjs/core/Meshes/mesh';
 import { Space, Vector3, Axis } from '@babylonjs/core/Maths/math';
+import { Rotation } from '../models/environment/rotation';
 
 export class MoveService {
     private distance = 0;
@@ -7,6 +8,8 @@ export class MoveService {
     private direction = 'x';
     private from;
     private to;
+    private rotation = new Rotation();
+    private speed: number;
 
     public constructor(from, to) {
         this.from = from;
@@ -14,35 +17,13 @@ export class MoveService {
         this.setData();
     }
 
-    move(mesh: Mesh): number {
-        console.log(this.distance);
-        if (this.distance > 0) {
-            this.distance--;
-            return mesh.pos += 0.004;;
-        } else {
-            this.setData();
-            this.rotate(mesh);
-        }
+    move(mesh: Mesh) {
+        this.changePosition(mesh, 'x');
+        this.changePosition(mesh, 'z');
     }
 
-    rotate(mesh: Mesh) {
-        switch (this.direction) {
-            case 'x':
-                console.log('rotation x');
-                mesh.rotation.y += 1;
-                break;
-            case 'y':
-                console.log('rotation y');
-                mesh.rotation.y += 1;
-                break;
-            case 'z':
-                console.log('rotation z');
-                mesh.rotation.y += 1;
-                break;
-            default:
-                return;
-        }
-        
+    private changePosition(mesh: Mesh, vector: string) {
+        mesh.position[vector] += this.rotation[vector];
     }
 
     private getDistance() {
@@ -54,8 +35,28 @@ export class MoveService {
         this.direction = this.directions[directionIndex];
     }
 
+    private setRotations() {
+        const angle = Math.floor(Math.random() * 360);
+        this.getRotation('x', 'cos', angle);
+        this.getRotation('z', 'sin', angle);
+    }
+
+    private getRotation(vector: string, math: string, angle: number) {
+        this.rotation[vector] = (math === 'cos' ? Math.cos(angle) :  Math.sin(angle)) * this.speed;
+    }
+
+    private predictPosition() {
+
+    }
+
+    private getSpeed() {
+        this.speed = 0.004;
+    }
+
     private setData() {
         this.getDirection();
         this.getDistance();
+        this.getSpeed();
+        this.setRotations();
     }
 }

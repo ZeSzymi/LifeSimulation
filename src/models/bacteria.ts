@@ -7,6 +7,8 @@ import { MeshBuilder } from '@babylonjs/core/Meshes/meshBuilder';
 import { Vector3 } from '@babylonjs/core/Maths/math';
 import { Ray } from '@babylonjs/core/Culling/ray';
 import { RayHelper } from '@babylonjs/core/Debug/rayHelper';
+import { RayService } from '../services/ray.service';
+import { PickingInfo } from '@babylonjs/core/Collisions/pickingInfo';
 
 export class Bacteria {
 
@@ -18,12 +20,14 @@ export class Bacteria {
     public distance: number;
     public rotation: number;
     private moveService: MoveService;
+    private rayService: RayService;
 
-    constructor (DNA: DNA, scene: Scene, id: string) {
-        this.mesh = MeshBuilder.CreateBox(id, { width : DNA.size, height: 0.2, depth: DNA.size}, scene);
+    constructor(DNA: DNA, scene: Scene, id: string) {
+        this.mesh = MeshBuilder.CreateBox(id, { width: DNA.size, height: 0.2, depth: DNA.size }, scene);
         this.DNA = DNA;
         this.animationPropertiesOverride(true, 0.09, 1);
         this.moveService = new MoveService(10, 100);
+        this.rayService = new RayService();
     }
 
     private animationPropertiesOverride(enableBlending: boolean, blendingSpeed: number, loopMode: number) {
@@ -42,14 +46,28 @@ export class Bacteria {
         }
     }
 
-   public move() {
-       this.moveService.move(this.mesh);
-   }
-   
-   public go() {
-       if (this.distance > 20) {
-           this.distance = 0;
-           this.rotation = Math.floor(Math.random() * 2);
-       }
-   }
+    public move(scene: Scene) {
+        const hits = this.rayService.castRay(scene, this.mesh);
+        this.moveService.move(this.mesh);
+
+    }
+
+    public go() {
+        if (this.distance > 20) {
+            this.distance = 0;
+            this.rotation = Math.floor(Math.random() * 2);
+        }
+    }
+
+    public changeDirection() {
+
+    }
+
+    public isHit(hits: PickingInfo[]) {
+        if (hits[1]?.pickedMesh.name) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
