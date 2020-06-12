@@ -4,9 +4,6 @@ import { AnimationPropertiesOverride } from '@babylonjs/core/Animations';
 import { DNA } from './dna';
 import { Mesh } from '@babylonjs/core/Meshes/mesh';
 import { MeshBuilder } from '@babylonjs/core/Meshes/meshBuilder';
-import { Vector3 } from '@babylonjs/core/Maths/math';
-import { Ray } from '@babylonjs/core/Culling/ray';
-import { RayHelper } from '@babylonjs/core/Debug/rayHelper';
 import { RayService } from '../services/ray.service';
 import { PickingInfo } from '@babylonjs/core/Collisions/pickingInfo';
 
@@ -41,24 +38,5 @@ export class Bacteria {
     public move(scene: Scene) {
         const hits = this.rayService.getHits(scene);
         this.moveService.move(this.mesh, hits);
-    }
-
-    public go() {
-        if (this.distance > 20) {
-            this.distance = 0;
-            this.rotation = Math.floor(Math.random() * 2);
-        }
-    }
-
-    public changeDirection() {
-
-    }
-
-    public isHit(hits: PickingInfo[]) {
-        if (hits[1]?.pickedMesh.name) {
-            return true;
-        } else {
-            return false;
-        }
     }
 }

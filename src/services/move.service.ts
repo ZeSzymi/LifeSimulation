@@ -1,30 +1,47 @@
 import { Mesh } from '@babylonjs/core/Meshes/mesh';
 import { Rotation } from '../models/environment/rotation';
 import { PickingInfo } from '@babylonjs/core/Collisions/pickingInfo';
+import { Collision } from '../models/environment/collision';
 
 export class MoveService {
     private rotation = new Rotation();
-    private speed: number;
+    public speed: number;
     private angle: number;
+    private collision = new Collision();
+    private area = 5;
 
     public constructor() {
         this.setData();
     }
 
     move(mesh: Mesh, hits: PickingInfo[]) {
-        if (hits.length === 0) {
-            this.changePosition(mesh, 'x');
-            this.changePosition(mesh, 'z');
-        } else {
-            this.setRotations(Math.floor(Math.random() * 360));
-            this.changePosition(mesh, 'x');
-            this.changePosition(mesh, 'z');
-            this.changePosition(mesh, 'x');
-            this.changePosition(mesh, 'z');
-            this.changePosition(mesh, 'x');
-            this.changePosition(mesh, 'z');
+        if (mesh.position.x > this.area || mesh.position.x < -this.area) {
+            this.collision.is = true;
+            this.collision.attempts++;
+        } else if (mesh.position.z > this.area || mesh.position.z < -this.area) {
+            this.collision.is = true;
+            this.collision.attempts++;
+            
+        } else if (hits.length > 0) {
+            this.collision.is = true;
+            this.collision.attempts++;
         }
-      
+
+        if (this.collision.is && this.collision.attempts > this.collision.attemptsMax) {
+            this.rotation.x = -this.rotation.x
+            this.rotation.z = -this.rotation.z
+            this.collision.attempts = 0;
+        }
+
+        if (this.rotation.steps === 100) { 
+            if (Math.floor(Math.random() * 100) > 80) {
+                this.setRotations(Math.floor(Math.random() * 360));
+            }
+            this.rotation.steps = 0;
+        }
+        this.changePosition(mesh, 'x');
+        this.changePosition(mesh, 'z');
+        this.rotation.steps++;
     }
 
     private changePosition(mesh: Mesh, vector: string) {
@@ -41,12 +58,8 @@ export class MoveService {
         this.rotation[vector] = (math === 'cos' ? Math.cos(angle) :  Math.sin(angle)) * this.speed;
     }
 
-    private predictPosition() {
-
-    }
-
     private getSpeed() {
-        this.speed = 0.004;
+        this.speed = 0.003;
     }
 
     private setData() {

@@ -14,10 +14,17 @@ export class RayService {
         this.rays.push(this.newRay(mesh, -1, 0, 0));
         this.rays.push(this.newRay(mesh, 0, 0, -1));
         this.rays.push(this.newRay(mesh, 0, -1, 0));
-        // this.rays.forEach(ray => {
-        //     const rayHelper = new RayHelper(ray);
-        //     rayHelper.show(scene);
-        // })
+        this.rays.push(this.newRay(mesh, -1, 0, -1));
+        this.rays.push(this.newRay(mesh, 1, 0, 1));
+        this.rays.push(this.newRay(mesh, -1, 0, 1));
+        this.rays.push(this.newRay(mesh, 1, 0, -1));
+    }
+
+    private showRays(scene) {
+        this.rays.forEach(ray => {
+            const rayHelper = new RayHelper(ray);
+            rayHelper.show(scene);
+        })
     }
 
     getHits(scene: Scene): PickingInfo[] {
