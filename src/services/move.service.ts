@@ -8,7 +8,7 @@ export class MoveService {
     public speed: number;
     private angle: number;
     private collision = new Collision();
-    private area = 5;
+    private area = 2.5;
 
     public constructor() {
         this.setData();

@@ -4,6 +4,7 @@ import { Vector3 } from "@babylonjs/core/Maths/math";
 import { HemisphericLight } from "@babylonjs/core/Lights/hemisphericLight";
 import { GenerateService } from "./generate.service";
 import { Bacteria } from "../models/bacteria";
+import { Food } from "../models/food";
 
 export class InitService {
     public initialized = false;
@@ -12,7 +13,7 @@ export class InitService {
         this.generateService = new GenerateService();
     }
 
-    start(scene: Scene, canvas: HTMLCanvasElement): { camera: Camera, bacterias: Bacteria[]} {
+    start(scene: Scene, canvas: HTMLCanvasElement): { camera: Camera, bacterias: Bacteria[], foods: Food[]} {
         const camera = new FreeCamera("freeCamera", new Vector3(0, 5, -10), scene);
         camera.setTarget(Vector3.Zero());
         camera.attachControl(canvas, true);
@@ -20,7 +21,7 @@ export class InitService {
         const bacterias = this.generateService.genereteBacterias(20, scene);
         const foods = this.generateService.generateFood(100, scene);
         this.initialized = true;
-        return  { camera, bacterias }
+        return  { camera, bacterias, foods }
     }
 
 

@@ -3,6 +3,7 @@ import { Engine } from "@babylonjs/core/Engines/engine";
 import { InitService } from "./init.service";
 import { Bacteria } from "../models/bacteria";
 import { Camera } from "@babylonjs/core/Cameras";
+import { GenerateService } from "./generate.service";
 
 export class SceneService {
     private scene: Scene;
@@ -12,9 +13,11 @@ export class SceneService {
     private camera: Camera;
     private bacterias: Bacteria[] = [];
     public stop: boolean = false;
+    private generateService: GenerateService;
 
     constructor() {
         this.initService = new InitService();
+        this.generateService = new GenerateService();
         this.canvas = <any>document.getElementById("renderCanvas");
         this.engine = new Engine(this.canvas, true);
         this.scene = this.createScene();
@@ -30,6 +33,7 @@ export class SceneService {
 
         scene.registerBeforeRender(() => {
             if (!this.stop) {
+                this.generateService.generateFoodOnRun(10, scene);
                 this.bacterias.forEach(bacteria => {
                     bacteria.move(scene);
                 })
