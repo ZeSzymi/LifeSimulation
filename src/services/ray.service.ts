@@ -4,20 +4,21 @@ import { Vector3 } from "@babylonjs/core/Maths/math";
 import { RayHelper } from "@babylonjs/core/Debug/rayHelper";
 import { Ray } from "@babylonjs/core/Culling/ray";
 import { PickingInfo } from "@babylonjs/core/Collisions/pickingInfo";
+import { DNA } from "../models/dna";
 
 export class RayService {
     private rays: Ray[] = [];
-    castRay(scene: Scene, mesh: Mesh) {
-        this.rays.push(this.newRay(mesh, 1, 0, 0));
-        this.rays.push(this.newRay(mesh, 0, 0, 1));
-        this.rays.push(this.newRay(mesh, 0, 1, 0));
-        this.rays.push(this.newRay(mesh, -1, 0, 0));
-        this.rays.push(this.newRay(mesh, 0, 0, -1));
-        this.rays.push(this.newRay(mesh, 0, -1, 0));
-        this.rays.push(this.newRay(mesh, -1, 0, -1));
-        this.rays.push(this.newRay(mesh, 1, 0, 1));
-        this.rays.push(this.newRay(mesh, -1, 0, 1));
-        this.rays.push(this.newRay(mesh, 1, 0, -1));
+    castRay(scene: Scene, mesh: Mesh, dna: DNA) {
+        this.rays.push(this.newRay(mesh, dna, 1, 0, 0));
+        this.rays.push(this.newRay(mesh, dna, 0, 0, 1));
+        this.rays.push(this.newRay(mesh, dna, 0, 1, 0));
+        this.rays.push(this.newRay(mesh, dna, -1, 0, 0));
+        this.rays.push(this.newRay(mesh, dna, 0, 0, -1));
+        this.rays.push(this.newRay(mesh, dna, 0, -1, 0));
+        this.rays.push(this.newRay(mesh, dna, -1, 0, -1));
+        this.rays.push(this.newRay(mesh, dna, 1, 0, 1));
+        this.rays.push(this.newRay(mesh, dna, -1, 0, 1));
+        this.rays.push(this.newRay(mesh, dna, 1, 0, -1));
     }
 
     private showRays(scene) {
@@ -36,15 +37,14 @@ export class RayService {
         return hits;
     }
 
-    newRay(mesh: Mesh, x, y, z) {
+    newRay(mesh: Mesh, dna:DNA, x, y, z) {
         const origin = mesh.position;
         let forward = new Vector3(x, y, z);
         forward = this.vecToLocal(forward, mesh);
 
         let direction = forward.subtract(origin);
         direction = Vector3.Normalize(direction);
-
-        const length = 0.1;
+        const length = dna.size - 0.05;
 
         return new Ray(origin, direction, length);
     }

@@ -13,15 +13,15 @@ export class InitService {
         this.generateService = new GenerateService();
     }
 
-    start(scene: Scene, canvas: HTMLCanvasElement): { camera: Camera, bacterias: Bacteria[], foods: Food[]} {
+    start(scene: Scene, canvas: HTMLCanvasElement): { camera: Camera, bacterias: Bacteria[], deadBacterias: Bacteria[], foods: Food[]} {
         const camera = new FreeCamera("freeCamera", new Vector3(0, 5, -10), scene);
         camera.setTarget(Vector3.Zero());
         camera.attachControl(canvas, true);
         const light1: HemisphericLight = new HemisphericLight("light1", new Vector3(0, 1, 0), scene);
-        const bacterias = this.generateService.genereteBacterias(20, scene);
+        const {bacterias, deadBacterias} = this.generateService.genereteBacterias(20, scene);
         const foods = this.generateService.generateFood(100, scene);
         this.initialized = true;
-        return  { camera, bacterias, foods }
+        return  { camera, bacterias, deadBacterias, foods }
     }
 
 

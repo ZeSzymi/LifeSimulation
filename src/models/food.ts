@@ -5,14 +5,18 @@ import { Scene } from "@babylonjs/core/scene";
 export class Food  {
 
         public mesh: Mesh;
-        public sizeX: number;
-        public sizeY: number;
-        public sizeZ: number;
-        public distance: number;
-        public rotation: number;
+        public id: string;
+        private parent: Food[];
     
-        constructor(scene: Scene, id: string) {
-            this.mesh = MeshBuilder.CreateBox(id, { width: 0.1, height: 0.1, depth: 0.1 }, scene);
+        constructor(scene: Scene, id: string, parent: Food[]) {
+            this.mesh = MeshBuilder.CreateBox(id, { width: 0.07, height: 0.07, depth: 0.07 }, scene);
+            this.parent = parent;
+            this.id = id;
+        }
+
+        dispose() {
+            this.mesh.dispose();
+            this.parent.splice(this.parent.findIndex(f => f.id === this.id), 1);
         }
     
 }

@@ -2,6 +2,7 @@ import { Mesh } from '@babylonjs/core/Meshes/mesh';
 import { Rotation } from '../models/environment/rotation';
 import { PickingInfo } from '@babylonjs/core/Collisions/pickingInfo';
 import { Collision } from '../models/environment/collision';
+import { Bacteria } from '../models/bacteria';
 
 export class MoveService {
     private rotation = new Rotation();
@@ -10,11 +11,12 @@ export class MoveService {
     private collision = new Collision();
     private area = 2.5;
 
-    public constructor() {
+    public constructor(speed) {
+        this.speed = speed;
         this.setData();
     }
 
-    move(mesh: Mesh, hits: PickingInfo[]) {
+    move(mesh: Mesh, hits: Bacteria[], steps: number) {
 
         if (mesh.position.x > this.area || mesh.position.x < -this.area) {
             this.collision.is = true;
@@ -32,13 +34,12 @@ export class MoveService {
             this.rotation.x = -this.rotation.x
             this.rotation.z = -this.rotation.z
             this.collision.attempts = 0;
+            this.collision.is = false;
         }
 
-        if (this.rotation.steps === 100) { 
-            if (Math.floor(Math.random() * 100) > 80) {
-                this.setRotations(Math.floor(Math.random() * 360));
-            }
-            this.rotation.steps = 0;
+        if (steps === 300) { 
+            this.setRotations(Math.floor(Math.random() * 360));
+            steps = 0;
         }
         this.changePosition(mesh, 'x');
         this.changePosition(mesh, 'z');
@@ -59,12 +60,7 @@ export class MoveService {
         this.rotation[vector] = (math === 'cos' ? Math.cos(angle) :  Math.sin(angle)) * this.speed;
     }
 
-    private getSpeed() {
-        this.speed = 0.003;
-    }
-
     private setData() {
-        this.getSpeed();
         this.setRotations(Math.floor(Math.random() * 360));
     }
 }
