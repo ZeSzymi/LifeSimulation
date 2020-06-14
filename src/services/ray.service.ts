@@ -44,7 +44,7 @@ export class RayService {
 
         let direction = forward.subtract(origin);
         direction = Vector3.Normalize(direction);
-        const length = dna.size - 0.05;
+        const length = dna.size * 0.06;
 
         return new Ray(origin, direction, length);
     }

@@ -35,6 +35,8 @@ export class MoveService {
             this.rotation.z = -this.rotation.z
             this.collision.attempts = 0;
             this.collision.is = false;
+            this.changePosition(mesh, 'x');
+            this.changePosition(mesh, 'z');
         }
 
         if (steps === 300) { 

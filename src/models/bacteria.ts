@@ -6,6 +6,9 @@ import { Mesh } from '@babylonjs/core/Meshes/mesh';
 import { MeshBuilder } from '@babylonjs/core/Meshes/meshBuilder';
 import { RayService } from '../services/ray.service';
 import { Food } from './food';
+import { Config } from '../helpers/config.helper';
+import { PickingInfo } from '@babylonjs/core/Collisions/pickingInfo';
+import { Consts } from '../consts/environment';
 
 export class Bacteria {
 
@@ -15,18 +18,21 @@ export class Bacteria {
     private rayService: RayService;
     private parent: Bacteria[];
     private id: string;
-    private energy = 1000;
+    private energy: number;
     private disposeParent: Bacteria[];
     private stepsSinceFood = 0;
+    private config: Config;
 
-    constructor(scene: Scene, id: string, parent: Bacteria[], disposeParent: Bacteria[]) {
-        const size = (Math.floor(Math.random() * 20) + 10) * 0.01;
-        const speed = (1 - size) * 0.008;
-        const strength = (Math.floor(Math.random() * 20) + 10) * 0.01;;
+    constructor(scene: Scene, id: string, parent: Bacteria[], disposeParent: Bacteria[], config: Config) {
+        const size = 3 //(Math.floor(Math.random() * 2) + 1) 
+        const speed = 2 //size * 0.0008;
+        const strength = (Math.floor(Math.random() * 20) + 10) * 0.01;
+        this.config = config;
+        this.energy = this.config.energy;
         this.DNA = new DNA(speed, size, strength);
-        this.mesh = MeshBuilder.CreateBox(id, { width:  this.DNA.size, height: this.DNA.size, depth: this.DNA.size}, scene);
+        this.mesh = MeshBuilder.CreateBox(id, { width:  this.DNA.size * 0.1, height: 0.1, depth: this.DNA.size * 0.1}, scene);
         this.animationPropertiesOverride(true, 0.09, 1);
-        this.moveService = new MoveService(this.DNA.speed);
+        this.moveService = new MoveService(this.DNA.speed * 0.001);
         this.rayService = new RayService();
         this.rayService.castRay(scene, this.mesh, this.DNA);
         this.parent = parent;
@@ -48,20 +54,33 @@ export class Bacteria {
         }
         const hits = this.rayService.getHits(scene);
         const food = hits.filter(h => h.pickedMesh.name.includes('f'));
-        this.energy += (food.length * 500)
+        
         if (food.length > 0) {
             this.stepsSinceFood = 0;
         } 
         this.stepsSinceFood++;
 
         food.forEach(f => foods.find(fd => fd.id === f.pickedMesh.name)?.dispose());
+
         const bacterie = hits.filter(h => h.pickedMesh.name.includes('b')).map(b => this.parent.find(p => p.id === b.pickedMesh.name));
         this.moveService.move(this.mesh, bacterie, this.stepsSinceFood);
-        this.energy--;
+        this.manageEnergy(food);
+    }
+
+    private manageEnergy(food: PickingInfo[]) {
+        if (this.mesh.name === 'b2') {
+            console.log(this.energy, (this.DNA.size/2));
+        }
+        this.energy += (food.length * Consts.FOOD_VALUE)
+        this.energy -= (this.DNA.size/2);
+
     }
 
     public collectLightEnergy(light: number) {
-        this.energy += (this.DNA.size * light ) * 100
+        if (this.mesh.name === 'b2') {
+            console.log(((this.DNA.size/8) * light ) * 10);
+        }
+        this.energy += ((this.DNA.size/8) * light ) * 10
     }
 
     public dispose() {

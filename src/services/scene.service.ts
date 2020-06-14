@@ -5,7 +5,8 @@ import { Bacteria } from "../models/bacteria";
 import { Camera } from "@babylonjs/core/Cameras";
 import { GenerateService } from "./generate.service";
 import { Food } from "../models/food";
-import { Light } from "@babylonjs/core/Lights/light";
+import { LightEnergy } from "../models/light";
+import { Config } from "../helpers/config.helper";
 
 export class SceneService {
     private scene: Scene;
@@ -16,14 +17,17 @@ export class SceneService {
     private camera: Camera;
     private bacterias: Bacteria[] = [];
     private deadBacterias: Bacteria[] = [];
-    public light: Light;
+    public light: LightEnergy;
     public stop: boolean = false;
     private generateService: GenerateService;
     private lastFoodId = 0;
+    private config: Config;
 
     constructor() {
-        this.initService = new InitService();
-        this.generateService = new GenerateService();
+        this.config = new Config();
+        this.initService = new InitService(this.config);
+        this.generateService = new GenerateService(this.config);
+        this.light = new LightEnergy(this.config.light, 200, 0);
         this.canvas = <any>document.getElementById("renderCanvas");
         this.engine = new Engine(this.canvas, true);
         this.scene = this.createScene();
@@ -42,11 +46,13 @@ export class SceneService {
 
         scene.registerBeforeRender(() => {
             if (!this.stop) {
-                const length = this.generateService.generateFoodOnRun(10, scene, this.food, this.lastFoodId)?.length;
+                const length = this.generateService.generateFoodOnRun(this.config.foodOnRun, scene, this.food, this.lastFoodId)?.length;
                 this.lastFoodId = length != null ? this.lastFoodId + length : this.lastFoodId;
                 this.bacterias.forEach(bacteria => {
+                    bacteria.collectLightEnergy(this.light.light)
                     bacteria.move(scene, this.food);
                 })
+                this.light.ticks++;
             }
         });
         return scene;
