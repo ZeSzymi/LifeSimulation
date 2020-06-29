@@ -18,6 +18,8 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "@amcharts/amcharts4": "^4.9.28"
+    "@amcharts/amcharts4": "^4.9.28",
+    "moment": "^2.27.0",
+    "rxjs": "^6.5.5"
   }
 }

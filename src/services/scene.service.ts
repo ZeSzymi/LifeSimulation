@@ -7,6 +7,7 @@ import { GenerateService } from "./generate.service";
 import { Food } from "../models/food";
 import { LightEnergy } from "../models/light";
 import { Config } from "../helpers/config.helper";
+import { Subject } from "rxjs";
 
 export class SceneService {
     private scene: Scene;
@@ -22,8 +23,10 @@ export class SceneService {
     private generateService: GenerateService;
     private lastFoodId = 0;
     private config: Config;
+    private liveSubject: Subject<Bacteria[]>;
 
-    constructor() {
+    constructor(liveSubject: Subject<Bacteria[]>) {
+        this.liveSubject = liveSubject
         this.config = new Config();
         this.initService = new InitService(this.config);
         this.generateService = new GenerateService(this.config);
@@ -61,6 +64,7 @@ export class SceneService {
     public run() {
         this.engine.runRenderLoop(() => {
             this.scene.render();
+            this.liveSubject.next(this.bacterias);
         });
     }
 }
