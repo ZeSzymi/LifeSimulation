@@ -24,8 +24,8 @@ export class Bacteria {
     private config: Config;
 
     constructor(scene: Scene, id: string, parent: Bacteria[], disposeParent: Bacteria[], config: Config) {
-        const size = 3 //(Math.floor(Math.random() * 2) + 1) 
-        const speed = 2 //size * 0.0008;
+        const size = (Math.floor(Math.random() * 3) + 1) 
+        const speed = 5 - size;
         const strength = (Math.floor(Math.random() * 20) + 10) * 0.01;
         this.config = config;
         this.energy = this.config.energy;
@@ -68,18 +68,12 @@ export class Bacteria {
     }
 
     private manageEnergy(food: PickingInfo[]) {
-        if (this.mesh.name === 'b2') {
-            console.log(this.energy, (this.DNA.size/2));
-        }
         this.energy += (food.length * Consts.FOOD_VALUE)
         this.energy -= (this.DNA.size/2);
 
     }
 
     public collectLightEnergy(light: number) {
-        if (this.mesh.name === 'b2') {
-            console.log(((this.DNA.size/8) * light ) * 10);
-        }
         this.energy += ((this.DNA.size/8) * light ) * 10
     }
 

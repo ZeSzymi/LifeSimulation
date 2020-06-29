@@ -9,7 +9,7 @@ export class MoveService {
     public speed: number;
     private angle: number;
     private collision = new Collision();
-    private area = 2.5;
+    private area = 2.6;
 
     public constructor(speed) {
         this.speed = speed;
@@ -39,7 +39,7 @@ export class MoveService {
             this.changePosition(mesh, 'z');
         }
 
-        if (steps === 300) { 
+        if (steps === 250) { 
             this.setRotations(Math.floor(Math.random() * 360));
             steps = 0;
         }

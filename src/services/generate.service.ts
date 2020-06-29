@@ -18,9 +18,9 @@ export class GenerateService {
         const deadBacterias = <Bacteria[]>[];
         for (let i = 0; i < this.config.bacterieAmount; i++) {
             let bacteria = new Bacteria(scene, `b${i}`, bacterias, deadBacterias, this.config);
-            const a = bacteria.DNA.size
             bacterias.push(bacteria);
         }
+        this.generatePositions(bacterias);
         return { bacterias, deadBacterias };
     }
 
@@ -50,9 +50,33 @@ export class GenerateService {
     }
 
     generatePositions(bacterias: Bacteria[]) {
-        const [b1, b2, b3, b4] =  bacterias.reduce()
-        bacterias.forEach(b => {
-            b.mesh.
+        let b1X = -2;
+        let b2Z = 2;
+        let b3X = 2;
+        let b4Z = -2;
+        let index = 0;
+        bacterias.forEach((b, i) => {
+            if (index === 0) {
+                b.mesh.position.z = 2.5;
+                b.mesh.position.x = b1X;
+                b1X += 1; 
+                index++;
+            } else if (index === 1) {
+                b.mesh.position.z = b2Z;
+                b.mesh.position.x = -2.5;
+                b2Z -= 1;
+                index++;
+            } else if (index === 2) {
+                b.mesh.position.z = -2.5;
+                b.mesh.position.x = b3X;
+                b3X -= 1;
+                index++;
+            } else {
+                b.mesh.position.z = b4Z;
+                b.mesh.position.x = 2.5;
+                b4Z += 1;
+                index = 0;
+            }
         })
     }
 
