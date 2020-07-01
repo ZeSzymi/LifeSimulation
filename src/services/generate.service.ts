@@ -36,6 +36,10 @@ export class GenerateService {
     }
 
     generateFoodOnRun(amount: number, scene: Scene, foods: Food[], lastId: number): Food[] {
+        if (foods.length > 120) {
+            return foods;
+        }
+
         if (this.ticks === 500) {
             for (let i = 0; i < amount; i++) {
                 let food = new Food(scene, `f${lastId + i}`, foods);

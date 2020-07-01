@@ -28,12 +28,32 @@
             left: calc(50% - 50px);
             z-index: 1;
         }
+
+        #live-chart-modal {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            width: 700px;
+            height: 350px;
+            z-index: 1;
+            background-color: white;
+        }
+
+        #live-chart {
+            width: 100%;
+            height: 100%;
+            padding-bottom: 20px;
+        }
     </style>
 </head>
 
 <body>
     <canvas id="renderCanvas" touch-action="none"></canvas>
     <button id="stop">Stop</button>
+    <div id="live-chart-modal">
+        <div id="live-chart"></div>
+    </div>
+
     <script src="main.js"></script>
 </body>
 

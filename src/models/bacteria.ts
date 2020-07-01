@@ -22,6 +22,8 @@ export class Bacteria {
     private disposeParent: Bacteria[];
     private stepsSinceFood = 0;
     private config: Config;
+    private foodAte: number;
+    private dead: boolean = false;
 
     constructor(scene: Scene, id: string, parent: Bacteria[], disposeParent: Bacteria[], config: Config) {
         const size = (Math.floor(Math.random() * 3) + 1) 
@@ -79,9 +81,43 @@ export class Bacteria {
 
     public dispose() {
         this.mesh.dispose();
+        this.dead = true;
         this.disposeParent.push(this);
         this.parent.splice(this.parent.findIndex(b => b.id === this.id), 1);
     }
 
+    public toBacteriaData(): BacteriaData {
+        const data = new BacteriaData();
+        data.positionX = this.mesh.position.x;
+        data.positionY = this.mesh.position.y;
+        data.positionZ = this.mesh.position.z;
+        data.DNA = this.DNA;
+        data.energy = this.energy;
+        data.id = this.id;
+        data.foodAte = this.foodAte;
+        data.isDead = this.dead;
+        return data;
+    }
+}
 
+export class BacteriaData {
+    public positionX: number;
+    public positionY: number;
+    public positionZ: number;
+    public DNA: DNA;
+    public id: string;
+    public energy: number;
+    public foodAte: number;
+    public isDead: boolean;
+}
+
+export class BacteriasSubjectModel {
+    constructor(alive: BacteriaData[], dead: BacteriaData[] , food: Food[]) {
+        this.alive = alive;
+        this.dead = dead;
+        this.food = food;
+    }
+    alive: BacteriaData[];
+    dead: BacteriaData[];
+    food: Food[];
 }

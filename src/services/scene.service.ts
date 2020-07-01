@@ -1,7 +1,7 @@
 import { Scene } from "@babylonjs/core/scene";
 import { Engine } from "@babylonjs/core/Engines/engine";
 import { InitService } from "./init.service";
-import { Bacteria } from "../models/bacteria";
+import { Bacteria, BacteriasSubjectModel } from "../models/bacteria";
 import { Camera } from "@babylonjs/core/Cameras";
 import { GenerateService } from "./generate.service";
 import { Food } from "../models/food";
@@ -23,9 +23,11 @@ export class SceneService {
     private generateService: GenerateService;
     private lastFoodId = 0;
     private config: Config;
-    private liveSubject: Subject<Bacteria[]>;
+    private subjectTicks = 0;
+    private liveSubject: Subject<BacteriasSubjectModel>;
 
-    constructor(liveSubject: Subject<Bacteria[]>) {
+
+    constructor(liveSubject: Subject<BacteriasSubjectModel>) {
         this.liveSubject = liveSubject
         this.config = new Config();
         this.initService = new InitService(this.config);
@@ -64,7 +66,15 @@ export class SceneService {
     public run() {
         this.engine.runRenderLoop(() => {
             this.scene.render();
-            this.liveSubject.next(this.bacterias);
+            if (this.subjectTicks === 500) {
+                this.liveSubject
+                .next(new BacteriasSubjectModel(
+                    this.bacterias.map(b => b.toBacteriaData()), 
+                    this.deadBacterias.map(b => b.toBacteriaData()), 
+                    this.food))
+                this.subjectTicks = 0;
+            } 
+            this.subjectTicks++;
         });
     }
 }
