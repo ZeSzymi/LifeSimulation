@@ -6,6 +6,4 @@ export class Config {
     public foodOnRun = Defaults.FOOD_ON_RUN;
     public energy = Defaults.ENERGY;
     public light = Defaults.LIGHT;
-
-    
 }

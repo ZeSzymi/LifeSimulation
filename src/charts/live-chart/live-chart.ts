@@ -1,6 +1,6 @@
 import { ChartXYBase } from "../chartXYBase";
 import { ValueAxis, LineSeries } from "@amcharts/amcharts4/charts";
-import { Subject } from "rxjs";
+import { Subject, Subscription } from "rxjs";
 import { BacteriasSubjectModel } from "../../models/bacteria";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
@@ -12,6 +12,7 @@ export class LiveChart extends ChartXYBase<ValueAxis, ValueAxis, LineSeries> {
     public modal: HTMLElement;
     public chartDiv: HTMLElement;
     private now: moment.Moment;
+    private onDataChangeSubscription: Subscription;
 
     constructor(subject: Subject<BacteriasSubjectModel>) {
         super();
@@ -19,22 +20,26 @@ export class LiveChart extends ChartXYBase<ValueAxis, ValueAxis, LineSeries> {
         this.subject = subject;
         this.modal = document.getElementById('live-chart-modal')
         this.chartDiv = document.getElementById('live-chart')
+    }
+
+    start() {
         this.initLiveChart();
         this.initXAxis();
         const ay1 = this.initYAxis(false, 40, 0);
         const ay2 = this.initYAxis(true, 150, 0);
         this.initSeries('bacterias', ay1, 'bacterias');
         this.initSeries('food', ay2, 'food');
-        this.subject.subscribe(bacterias => this.onDataChange(bacterias))
+        this.onDataChangeSubscription = this.subject.subscribe(bacterias => this.onDataChange(bacterias))
+    }
+
+    finish() {
+        this.onDataChangeSubscription.unsubscribe();
+        this.chart.dispose();
     }
 
     onDataChange(data: BacteriasSubjectModel) {
-        // console.log(this.now.format('HH:mm:ss.SSS')) 
-        // console.log(moment(new Date()).format('HH:mm:ss.SSS'))
-        // console.log("-----")
         if (this.chart != null) {
             const date = moment.utc(moment(Date.now()).diff(this.now));
-            console.log({ date: date.toDate(), data: data.alive.length })
             this.chart.addData({ date: date.toDate(), bacterias: data.alive.length, food: data.food.length })
         }
 
@@ -63,8 +68,8 @@ export class LiveChart extends ChartXYBase<ValueAxis, ValueAxis, LineSeries> {
         valueAxis.renderer.inside = false;
         valueAxis.renderer.minLabelPosition = 0.05;
         valueAxis.renderer.maxLabelPosition = 0.95;
-        // valueAxis.renderer.axisFills.template.disabled = true;
-        // valueAxis.renderer.ticks.template.disabled = true;
+        valueAxis.renderer.axisFills.template.disabled = true;
+        valueAxis.renderer.ticks.template.disabled = true;
         valueAxis.renderer.opposite = opposite;
         valueAxis.max = max;
         valueAxis.min = min;

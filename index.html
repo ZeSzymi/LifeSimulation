@@ -44,6 +44,27 @@
             height: 100%;
             padding-bottom: 20px;
         }
+
+        #config { 
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            width: 400px;
+            height: 600px;
+            z-index: 1;
+            background-color: white;
+            display: flex;
+            justify-content: center;
+        }
+
+        #sliders {
+            display: flex;
+            position: absolute;
+            left: 0px;
+            bottom: 100px;
+            justify-content: center;
+            z-index: 1;
+        }
     </style>
 </head>
 
@@ -53,7 +74,23 @@
     <div id="live-chart-modal">
         <div id="live-chart"></div>
     </div>
-
+    <div id="config">
+        <div>
+            <p>Bacterias</p>
+            <input id="bacteriasRange" type="range" min='1' max='50' value="20">
+            <p>Starting food</p>
+            <input id="startFoodRange" type="range" min='1' max='150' value="100">
+            <p>Starting light</p>
+            <input id="startLightRange" type="range" min='1' max='10' value="1">
+            <button id="closeConfigBtn">close</button>
+        </div>
+    </div>
+    <div id="sliders">
+        <p>food</p>
+        <input id="foodRange" type="range" min='1' max='40' value="10">
+        <p>light</p>
+        <input id="lightRange" type="range" min='1' max='10' value="1">
+    </div>
     <script src="main.js"></script>
 </body>
 

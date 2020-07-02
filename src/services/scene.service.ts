@@ -25,17 +25,24 @@ export class SceneService {
     private config: Config;
     private subjectTicks = 0;
     private liveSubject: Subject<BacteriasSubjectModel>;
+    private configSubject: Subject<Config>;
 
 
-    constructor(liveSubject: Subject<BacteriasSubjectModel>) {
+    constructor(liveSubject: Subject<BacteriasSubjectModel>, configSubject: Subject<Config>, config: Config) {
         this.liveSubject = liveSubject
-        this.config = new Config();
+        this.configSubject = configSubject;
+        this.config = config;
         this.initService = new InitService(this.config);
         this.generateService = new GenerateService(this.config);
         this.light = new LightEnergy(this.config.light, 200, 0);
         this.canvas = <any>document.getElementById("renderCanvas");
         this.engine = new Engine(this.canvas, true);
         this.scene = this.createScene();
+        this.onConfigChange();
+    }
+
+    private onConfigChange() {
+        this.configSubject.subscribe(c => this.config = c)
     }
 
     private createScene(): Scene {
@@ -51,6 +58,7 @@ export class SceneService {
 
         scene.registerBeforeRender(() => {
             if (!this.stop) {
+                 console.log(this.config.foodOnRun);
                 const length = this.generateService.generateFoodOnRun(this.config.foodOnRun, scene, this.food, this.lastFoodId)?.length;
                 this.lastFoodId = length != null ? this.lastFoodId + length : this.lastFoodId;
                 this.bacterias.forEach(bacteria => {
