@@ -109,8 +109,10 @@ export class LiveChart extends ChartXYBase<ValueAxis, ValueAxis, LineSeries> {
         bullet.isMeasured = false;
 
         series.events.on("validated", function () {
-            bullet.moveTo(series.dataItems.last.point);
-            bullet.validatePosition();
+            if (series.dataItems.last != null) {
+                bullet.moveTo(series.dataItems.last.point);
+                bullet.validatePosition();
+            }
         });
     }
 }

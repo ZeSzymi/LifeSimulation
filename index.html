@@ -31,6 +31,7 @@
 
         #live-chart-modal {
             position: absolute;
+            display: none;
             top: 0px;
             right: 0px;
             width: 700px;
@@ -40,18 +41,15 @@
         }
 
         #live-chart {
+            position: relative;
             width: 100%;
             height: 100%;
             padding-bottom: 20px;
         }
 
         #config { 
-            position: absolute;
-            top: 20%;
-            left: 50%;
             width: 400px;
             height: 600px;
-            z-index: 1;
             background-color: white;
             display: flex;
             justify-content: center;
@@ -65,6 +63,41 @@
             justify-content: center;
             z-index: 1;
         }
+
+        #background {
+            position: absolute;
+            background-color: #222222;
+            width: 100%;
+            height: 100%;
+            left: 0px;
+            top: 0px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+        }
+
+        #chart-buttons {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+
+        #live-close {
+            position: absolute;
+            z-index: 2;
+            right: 0;
+            top: 0;
+        }
+
+        #charts-modal {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            background-color: #222222;
+        }
     </style>
 </head>
 
@@ -72,25 +105,44 @@
     <canvas id="renderCanvas" touch-action="none"></canvas>
     <button id="stop">Stop</button>
     <div id="live-chart-modal">
-        <div id="live-chart"></div>
-    </div>
-    <div id="config">
-        <div>
-            <p>Bacterias</p>
-            <input id="bacteriasRange" type="range" min='1' max='50' value="20">
-            <p>Starting food</p>
-            <input id="startFoodRange" type="range" min='1' max='150' value="100">
-            <p>Starting light</p>
-            <input id="startLightRange" type="range" min='1' max='10' value="1">
-            <button id="closeConfigBtn">close</button>
+        <button id="live-close">x</button>
+        <div id="live-chart">
         </div>
     </div>
+    <div id="background">
+        <div id="config">
+            <div>
+                <p>Bacterias</p>
+                <input id="bacteriasRange" type="range" min='1' max='50' value="20">
+                <p>Starting food</p>
+                <input id="startFoodRange" type="range" min='1' max='150' value="100">
+                <p>Starting light</p>
+                <input id="startLightRange" type="range" min='1' max='10' value="1">
+                <button id="closeConfigBtn">close</button>
+            </div>
+        </div>
+    </div>
+   
     <div id="sliders">
-        <p>food</p>
+        <p style="color: white;">food</p>
         <input id="foodRange" type="range" min='1' max='40' value="10">
-        <p>light</p>
+        <p style="color: white;">light</p>
         <input id="lightRange" type="range" min='1' max='10' value="1">
     </div>
+    <div id="chart-buttons">
+        <button id="showLiveChartbtn">
+            Live Chart
+        </button>
+        <button id="showChartsbtn">
+            Charts
+        </button>
+    </div>
+
+    <div class="charts-modal">
+        <div id="pyramid-chart"></div>
+        <div id="column-chart"></div>
+    </div>
+   
     <script src="main.js"></script>
 </body>
 

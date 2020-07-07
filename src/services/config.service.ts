@@ -18,7 +18,7 @@ export class ConfigService {
 
     constructor() {
         this.subject = new Subject<Config>();
-        this.modal = document.getElementById('config');
+        this.modal = document.getElementById('background');
         this.bacteriasSlider = <HTMLInputElement>document.getElementById('bacteriasRange');
         this.startFoodSlider = <HTMLInputElement>document.getElementById('startFoodRange');
         this.startLightSlider = <HTMLInputElement>document.getElementById('startLightRange');

@@ -11,7 +11,7 @@ const configSerivce = new ConfigService();
 const viewService =  new ViewService();
 
 let sceneSerice = null;
-let liveChartService = null;
+let liveChartService: LiveChart = null;
 configSerivce.closeConfigBtn.addEventListener('click', () => {
     configSerivce.onStart();
     const subject = configSerivce.onSlidersChange();
@@ -20,11 +20,16 @@ configSerivce.closeConfigBtn.addEventListener('click', () => {
     sceneSerice.run();
 })
 
-viewService.showLiveChartBtn.addEventListener('click', () => {
-    liveChartService = new LiveChart(liveSubject);
+viewService.liveChartClose.addEventListener('click', () => {
+    liveChartService.finish();
+    viewService.liveChart.style.display = 'none';
 })
 
-
+viewService.showLiveChartBtn.addEventListener('click', () => {
+        liveChartService = new LiveChart(liveSubject);
+        viewService.liveChart.style.display = 'block';
+        liveChartService.start();
+})
 
 document.getElementById('stop').addEventListener('click', () => {
     sceneSerice.stop = !sceneSerice.stop
