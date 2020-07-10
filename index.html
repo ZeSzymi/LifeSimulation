@@ -91,12 +91,29 @@
         }
 
         #charts-modal {
+            display: none;
+            z-index: 3;
             position: absolute;
             top: 0px;
             left: 0px;
             width: 100%;
             height: 100%;
-            background-color: #222222;
+            background-color: rgba(255, 255, 255, 0.616);
+        }
+
+        .chart-box {
+            width: 50%;
+            height: 50%;
+            display: flex;
+            align-items: center;
+            float: left;   
+        }
+        #pyramid-chart {
+            width: 100%;
+        }
+        #column-chart {
+            width: 100%;
+            height: 80%;
         }
     </style>
 </head>
@@ -133,14 +150,19 @@
         <button id="showLiveChartbtn">
             Live Chart
         </button>
-        <button id="showChartsbtn">
+        <button id="chartsBtn">
             Charts
         </button>
     </div>
 
-    <div class="charts-modal">
-        <div id="pyramid-chart"></div>
-        <div id="column-chart"></div>
+    <div id="charts-modal">
+        <div class="chart-box">
+            <div id="pyramid-chart"></div>
+        </div>
+        <div class="chart-box">
+            <div id="column-chart"></div>
+        </div>
+        
     </div>
    
     <script src="main.js"></script>

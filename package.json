@@ -19,6 +19,8 @@
   },
   "dependencies": {
     "@amcharts/amcharts4": "^4.9.28",
+    "@types/lodash": "^4.14.157",
+    "lodash": "^4.17.19",
     "moment": "^2.27.0",
     "rxjs": "^6.5.5"
   }

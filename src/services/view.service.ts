@@ -2,11 +2,13 @@ export class ViewService {
     public showLiveChartBtn: HTMLButtonElement;
     public liveChart: HTMLElement;
     public liveChartClose: HTMLButtonElement;
+    public chartsBtn: HTMLButtonElement;
 
     constructor() {
         this.showLiveChartBtn = <HTMLButtonElement>document.getElementById('showLiveChartbtn');
         this.liveChart = document.getElementById('live-chart-modal');
         this.liveChartClose = <HTMLButtonElement>document.getElementById('live-close');
+        this.chartsBtn = <HTMLButtonElement>document.getElementById('chartsBtn');
     }
 
     liveChartOpened() {

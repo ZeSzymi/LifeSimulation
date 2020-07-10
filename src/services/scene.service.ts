@@ -14,12 +14,12 @@ export class SceneService {
     private engine: Engine;
     private canvas: HTMLCanvasElement;
     private initService: InitService;
-    private food: Food[];
+    public food: Food[];
     private camera: Camera;
-    private bacterias: Bacteria[] = [];
-    private deadBacterias: Bacteria[] = [];
+    public bacterias: Bacteria[] = [];
+    public deadBacterias: Bacteria[] = [];
     public light: LightEnergy;
-    public stop: boolean = false;
+    private stop: boolean = false;
     private generateService: GenerateService;
     private lastFoodId = 0;
     private config: Config;
@@ -69,6 +69,10 @@ export class SceneService {
             }
         });
         return scene;
+    }
+
+    public stopService() {
+        this.stop = !this.stop;
     }
 
     public run() {
