@@ -52,48 +52,48 @@ export class PyramidChart extends ChartXYBase<ValueAxis, ValueAxis, LineSeries> 
     }
 
     initSeries(valueAxis) {
-        let male = this.chart.series.push(new am4charts.ColumnSeries());
-        male.dataFields.valueX = "alive";
-        male.dataFields.categoryY = "size";
-        male.clustered = false;
+        let alive = this.chart.series.push(new am4charts.ColumnSeries());
+        alive.dataFields.valueX = "alive";
+        alive.dataFields.categoryY = "size";
+        alive.clustered = false;
 
-        let maleLabel = male.bullets.push(new am4charts.LabelBullet());
-        maleLabel.label.text = "{valueX}%";
-        maleLabel.label.hideOversized = false;
-        maleLabel.label.truncate = false;
-        maleLabel.label.horizontalCenter = "right";
-        maleLabel.label.dx = -20;
+        let aliveLabel = alive.bullets.push(new am4charts.LabelBullet());
+        aliveLabel.label.text = "{valueX}%";
+        aliveLabel.label.hideOversized = false;
+        aliveLabel.label.truncate = false;
+        aliveLabel.label.horizontalCenter = "right";
+        aliveLabel.label.dx = -20;
 
-        let female = this.chart.series.push(new am4charts.ColumnSeries());
-        female.dataFields.valueX = "dead";
-        female.dataFields.categoryY = "size";
-        female.clustered = false;
+        let dead = this.chart.series.push(new am4charts.ColumnSeries());
+        dead.dataFields.valueX = "dead";
+        dead.dataFields.categoryY = "size";
+        dead.clustered = false;
 
-        let femaleLabel = female.bullets.push(new am4charts.LabelBullet());
-        femaleLabel.label.text = "{valueX}%";
-        femaleLabel.label.hideOversized = false;
-        femaleLabel.label.truncate = false;
-        femaleLabel.label.horizontalCenter = "left";
-        femaleLabel.label.dx = 20;
+        let deadLabel = dead.bullets.push(new am4charts.LabelBullet());
+        deadLabel.label.text = "{valueX}%";
+        deadLabel.label.hideOversized = false;
+        deadLabel.label.truncate = false;
+        deadLabel.label.horizontalCenter = "left";
+        deadLabel.label.dx = 20;
 
-        let maleRange = valueAxis.axisRanges.create();
-        maleRange.value = -20;
-        maleRange.endValue = 0;
-        maleRange.label.text = "alive";
-        maleRange.label.fill = this.chart.colors.list[0];
-        maleRange.label.dy = 20;
-        maleRange.label.fontWeight = '600';
-        maleRange.grid.strokeOpacity = 1;
-        maleRange.grid.stroke = male.stroke;
+        let aliveRange = valueAxis.axisRanges.create();
+        aliveRange.value = -20;
+        aliveRange.endValue = 0;
+        aliveRange.label.text = "alive";
+        aliveRange.label.fill = this.chart.colors.list[0];
+        aliveRange.label.dy = 20;
+        aliveRange.label.fontWeight = '600';
+        aliveRange.grid.strokeOpacity = 1;
+        aliveRange.grid.stroke = alive.stroke;
 
-        let femaleRange = valueAxis.axisRanges.create();
-        femaleRange.value = 0;
-        femaleRange.endValue = 20;
-        femaleRange.label.text = "dead";
-        femaleRange.label.fill = this.chart.colors.list[1];
-        femaleRange.label.dy = 20;
-        femaleRange.label.fontWeight = '600';
-        femaleRange.grid.strokeOpacity = 1;
-        femaleRange.grid.stroke = female.stroke;
+        let deadRange = valueAxis.axisRanges.create();
+        deadRange.value = 0;
+        deadRange.endValue = 20;
+        deadRange.label.text = "dead";
+        deadRange.label.fill = this.chart.colors.list[1];
+        deadRange.label.dy = 20;
+        deadRange.label.fontWeight = '600';
+        deadRange.grid.strokeOpacity = 1;
+        deadRange.grid.stroke = dead.stroke;
     }
 }

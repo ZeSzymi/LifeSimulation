@@ -6,6 +6,7 @@ import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import * as moment from "moment";
+import { Axis } from "@babylonjs/core/Maths/math";
 
 export class LiveChart extends ChartXYBase<ValueAxis, ValueAxis, LineSeries> {
     private subject: Subject<BacteriasSubjectModel>;
@@ -59,7 +60,7 @@ export class LiveChart extends ChartXYBase<ValueAxis, ValueAxis, LineSeries> {
         this.chart.legend.position = 'top';
     }
 
-    initYAxis(opposite, max, min) {
+    initYAxis(opposite: boolean, max: number, min: number) {
         let valueAxis = this.chart.yAxes.push(new am4charts.ValueAxis());
         if(this.chart.yAxes.indexOf(valueAxis) != 0){
             valueAxis.syncWithAxis = <any>this.chart.yAxes.getIndex(0);
@@ -95,7 +96,7 @@ export class LiveChart extends ChartXYBase<ValueAxis, ValueAxis, LineSeries> {
         dateAxis.rangeChangeDuration = 500;
     }
 
-    initSeries(valueY, axisY, name) {
+    initSeries(valueY: string, axisY, name: string) {
         let series = this.chart.series.push(new am4charts.LineSeries());
         series.dataFields.dateX = "date";
         series.dataFields.valueY = valueY;
