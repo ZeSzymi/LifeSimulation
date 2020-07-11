@@ -19,7 +19,7 @@ export class Table {
     }
 
     addData(data: BacteriasSubjectModel) {
-        data.alive.concat(data.dead).sort((a,b) => parseInt(a.id)-parseInt(b.id)).forEach(b => {
+        data.alive.concat(data.dead).sort((a,b) => parseInt(a.id.substring(1))-parseInt(b.id.substring(1))).forEach(b => {
             const row = this.addRow();
             this.addCell(row, b.id);
             this.addCell(row, b.energy.toString());

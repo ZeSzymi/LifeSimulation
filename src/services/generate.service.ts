@@ -53,7 +53,7 @@ export class GenerateService {
         this.ticks++;
     }
 
-    generatePositions(bacterias: Bacteria[]) {
+    private generatePositions(bacterias: Bacteria[]) {
         let b1X = -2;
         let b2Z = 2;
         let b3X = 2;
@@ -63,22 +63,22 @@ export class GenerateService {
             if (index === 0) {
                 b.mesh.position.z = 2.5;
                 b.mesh.position.x = b1X;
-                b1X += 1; 
+                b1X += 0.7; 
                 index++;
             } else if (index === 1) {
                 b.mesh.position.z = b2Z;
                 b.mesh.position.x = -2.5;
-                b2Z -= 1;
+                b2Z -= 0.7;
                 index++;
             } else if (index === 2) {
                 b.mesh.position.z = -2.5;
                 b.mesh.position.x = b3X;
-                b3X -= 1;
+                b3X -= 0.7;
                 index++;
             } else {
                 b.mesh.position.z = b4Z;
                 b.mesh.position.x = 2.5;
-                b4Z += 1;
+                b4Z += 0.7;
                 index = 0;
             }
         })

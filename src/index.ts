@@ -2,18 +2,21 @@ import "@babylonjs/core/Materials/standardMaterial";
 import { SceneService } from "./services/scene.service";
 import { Subject } from 'rxjs';
 import { LiveChart } from "./charts/live-chart/live-chart";
-import { BacteriasSubjectModel } from "./models/bacteria";
+import { BacteriasSubjectModel, Bacteria } from "./models/bacteria";
 import { ConfigService } from "./services/config.service";
 import { ViewService } from "./services/view.service";
 import { ChartService } from "./services/charts.service";
+import { LightEnergy } from "./models/light";
+import { Food } from "./models/food";
 
 const liveSubject = new Subject<BacteriasSubjectModel>();
 const configSerivce = new ConfigService();
 const viewService =  new ViewService();
 
-let aliveBacterias = null;
-let deadBacterias = null;
-let food = null
+let aliveBacterias: Bacteria[] = null;
+let deadBacterias: Bacteria[] = null;
+let food: Food[] = null;
+let light: LightEnergy  = null;
 
 let sceneSerice: SceneService = null;
 let liveChartService: LiveChart = null;
@@ -27,6 +30,7 @@ configSerivce.closeConfigBtn.addEventListener('click', () => {
     aliveBacterias = sceneSerice.bacterias;
     deadBacterias = sceneSerice.deadBacterias;
     food = sceneSerice.food;
+    light = sceneSerice.light;
     sceneSerice.run();
 })
 
@@ -44,7 +48,7 @@ viewService.showLiveChartBtn.addEventListener('click', () => {
 viewService.chartsBtn.addEventListener('click', () => {
     chartService = new ChartService();
     chartService.chartModal.style.display = 'block';
-    chartService.initCharts(aliveBacterias, deadBacterias, food);
+    chartService.initCharts(aliveBacterias, deadBacterias, food, light);
     sceneSerice.stopService();
 });
 

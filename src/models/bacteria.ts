@@ -9,6 +9,7 @@ import { Food } from './food';
 import { Config } from '../helpers/config.helper';
 import { PickingInfo } from '@babylonjs/core/Collisions/pickingInfo';
 import { Consts } from '../consts/environment';
+import { LightEnergy } from './light';
 
 export class Bacteria {
 
@@ -113,12 +114,14 @@ export class BacteriaData {
 }
 
 export class BacteriasSubjectModel {
-    constructor(alive: BacteriaData[], dead: BacteriaData[], food: Food[]) {
+    constructor(alive: BacteriaData[], dead: BacteriaData[], food: Food[], light: LightEnergy) {
         this.alive = alive;
         this.dead = dead;
         this.food = food;
+        this.light = light;
     }
     alive: BacteriaData[];
     dead: BacteriaData[];
     food: Food[];
+    light: LightEnergy;
 }

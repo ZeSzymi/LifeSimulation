@@ -1,5 +1,5 @@
 export class Consts {
-    public static FOOD_VALUE = 300;
+    public static FOOD_VALUE = 600;
 }
 
 export class Defaults {
