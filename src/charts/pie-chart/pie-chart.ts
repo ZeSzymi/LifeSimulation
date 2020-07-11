@@ -15,21 +15,20 @@ export class PieChart {
         this.initSeries();
         this.chart.data = _.chain(data.alive.concat(data.dead))
             .groupBy(b => b.DNA.size)
-            .map((b, k) =>
-                ({
-                    size: `Size: ${k}`,
-                    amount: b.length
-                })).value()
+            .map((b, k) => ({
+                size: `Size: ${k}`,
+                amount: b.length
+            })).value()
+
     }
 
     initSeries() {
         let pieSeries = this.chart.series.push(new am4charts.PieSeries());
-        pieSeries.dataFields.value = "size";
-        pieSeries.dataFields.category = "amount";
+        pieSeries.dataFields.value = "amount";
+        pieSeries.dataFields.category = "size";
         pieSeries.slices.template.stroke = am4core.color("#fff");
         pieSeries.slices.template.strokeOpacity = 1;
 
-        // This creates initial animation
         pieSeries.hiddenState.properties.opacity = 1;
         pieSeries.hiddenState.properties.endAngle = -90;
         pieSeries.hiddenState.properties.startAngle = -90;

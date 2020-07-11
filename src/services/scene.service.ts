@@ -72,7 +72,11 @@ export class SceneService {
     }
 
     public stopService() {
-        this.stop = !this.stop;
+        this.stop = true;
+    }
+
+    public startService() {
+        this.stop = false;
     }
 
     public run() {

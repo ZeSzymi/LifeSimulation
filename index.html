@@ -48,8 +48,7 @@
         }
 
         #config { 
-            width: 400px;
-            height: 600px;
+            padding: 50px;
             background-color: white;
             display: flex;
             justify-content: center;
@@ -115,12 +114,25 @@
             width: 100%;
             height: 80%;
         }
+
+        #close-charts-modal {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+        }
+        .table-box {
+            justify-content: center;
+        }
+
+        #bacterias-table {
+            background-color: white;
+        }
+
     </style>
 </head>
 
 <body>
     <canvas id="renderCanvas" touch-action="none"></canvas>
-    <button id="stop">Stop</button>
     <div id="live-chart-modal">
         <button id="live-close">x</button>
         <div id="live-chart">
@@ -130,12 +142,13 @@
         <div id="config">
             <div>
                 <p>Bacterias</p>
-                <input id="bacteriasRange" type="range" min='1' max='50' value="20">
+                <input id="bacteriasRange" type="range" min='1' max='40' value="15">
                 <p>Starting food</p>
                 <input id="startFoodRange" type="range" min='1' max='150' value="100">
                 <p>Starting light</p>
                 <input id="startLightRange" type="range" min='1' max='10' value="1">
-                <button id="closeConfigBtn">close</button>
+                <p></p>
+                <button id="closeConfigBtn">start</button>
             </div>
         </div>
     </div>
@@ -156,15 +169,18 @@
     </div>
 
     <div id="charts-modal">
+        <button id="close-charts-modal">x</button>
         <div class="chart-box">
             <div id="pyramid-chart"></div>
         </div>
         <div class="chart-box">
             <div id="column-chart"></div>
         </div>
-        
+        <div class="chart-box table-box">
+            <table id="bacterias-table">
+            </table>
+        </div>
     </div>
-   
     <script src="main.js"></script>
 </body>
 

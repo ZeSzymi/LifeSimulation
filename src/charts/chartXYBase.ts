@@ -30,6 +30,7 @@ export class ChartXYBase<X extends am4charts.Axis, Y extends am4charts.Axis, S e
         seriesData.dataFields.valueY = serieY;
         return seriesData;
     }
+    
     dispose() {
         this.chart.dispose();
     }

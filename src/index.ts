@@ -48,8 +48,11 @@ viewService.chartsBtn.addEventListener('click', () => {
     sceneSerice.stopService();
 });
 
-document.getElementById('stop').addEventListener('click', () => {
-    sceneSerice.stopService();
-})
+viewService.closeChartsBtn.addEventListener('click', () => {
+    chartService.chartModal.style.display = 'none';
+    chartService.disposeCharts();
+    sceneSerice.startService();
+});
+
 
 

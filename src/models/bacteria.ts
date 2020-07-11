@@ -22,7 +22,7 @@ export class Bacteria {
     private disposeParent: Bacteria[];
     private stepsSinceFood = 0;
     private config: Config;
-    private foodAte: number;
+    private foodAte = 0;
     private dead: boolean = false;
 
     constructor(scene: Scene, id: string, parent: Bacteria[], disposeParent: Bacteria[], config: Config) {
@@ -71,18 +71,14 @@ export class Bacteria {
 
     private manageEnergy(food: PickingInfo[]) {
         this.energy += (food.length * Consts.FOOD_VALUE)
-        this.foodAte += (food.length);
+        this.foodAte += food.length;
         this.energy -= 1;
 
     }
 
     public collectLightEnergy(light: number) {
         this.energy += ((this.DNA.size / 8) * light)
-        // if (this.id === 'b2') {
-        //     console.log(this.energy);
-        // }
     }
-
 
     public dispose() {
         this.mesh.dispose();

@@ -39,10 +39,9 @@ export class LiveChart extends ChartXYBase<ValueAxis, ValueAxis, LineSeries> {
 
     onDataChange(data: BacteriasSubjectModel) {
         if (this.chart != null) {
-            const date = moment.utc(moment(Date.now()).diff(this.now));
+            const date = moment(moment(Date.now()).diff(this.now));
             this.chart.addData({ date: date.toDate(), bacterias: data.alive.length, food: data.food.length })
         }
-
     }
 
     initLiveChart() {
@@ -51,7 +50,8 @@ export class LiveChart extends ChartXYBase<ValueAxis, ValueAxis, LineSeries> {
         this.chart.hiddenState.properties.opacity = 0;
         this.chart.zoomOutButton.disabled = true;
         this.chart.padding(60, 10, 60, 10);
-        this.setData([])
+        const date = moment(moment(Date.now()).diff(this.now));
+        this.setData([{ date: date.toDate(), bacterias: 0, food: 0 }])
         this.chart.colors.step = 2;
         this.chart.legend = new am4charts.Legend();
         this.chart.legend.position = 'top';
